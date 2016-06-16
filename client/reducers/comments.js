@@ -1,30 +1,39 @@
+//reducers takes in two things
+
+//1 action (info about what happened)
+
+//2 copy of current state
+
 function postComments(state = [], action) {
   switch(action.type) {
     case 'ADD_COMMENT':
-      return [...state, {
-        user : action.author,
-        text : action.comment
+      //return the new state with new comment
+      return [...state,{
+        user: action.author,
+        text: action.comment
       }];
     case 'REMOVE_COMMENT':
+    //return new state without deleted comment
       return [
-        ...state.slice(0, action.i),
+        //from start
+        ...state.slice(0,action.i),
+        //after deleted
         ...state.slice(action.i + 1)
-      ];
-    default:
+      ]
       return state;
   }
+  return state;
 }
 
-function comments(state = {}, action) {
-  if (typeof action.postId !== 'undefined') {
+function comments(state = [], action) {
+  if(typeof action.postId !== 'undefined') {
     return {
-      // Take the current state
+      //take current state
       ...state,
-      // overwrite this post with the new one
+      //overwrite this post with new one
       [action.postId]: postComments(state[action.postId], action)
-    };
+    }
   }
-
   return state;
 }
 
